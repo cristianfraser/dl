@@ -1,44 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import './App.css';
-import Autocomplete, { Option } from './components/Autocomplete/Autocomplete';
-
-const options: Option[] = [
-  {
-    value: 'z',
-    label: 'holaHolah',
-  },
-  {
-    value: 'x',
-    label: 'chaoChao',
-  },
-  {
-    value: 'v',
-    label: 'ciaoCiao',
-  },
-  {
-    value: 'q',
-    label: 'helloHello',
-  },
-  {
-    value: 'c',
-    label: 'halloHallo',
-  },
-  {
-    value: 's',
-    label: 'hiHi',
-  },
-  {
-    value: 'a',
-    label: 'haHa',
-  },
-];
-
-function getRandomInt(min: number, max: number) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+import { Option } from './components/Autocomplete/Autocomplete';
+import ExampleAutocomplete from './components/ExampleAutocomplete/ExampleAutocomplete';
 
 function App() {
   const [value, setValue] = useState<Option>({
@@ -50,25 +14,24 @@ function App() {
     <div className="App">
       <header className="App-header"></header>
 
-      <main>
-        <div>
-          <Autocomplete
-            onSelect={(option) => {
-              setValue(option);
-            }}
-            value={value}
-            fetchFunction={(input) => {
-              return new Promise((resolve) => {
-                console.log(input);
-                setTimeout(() => {
-                  const res = options.filter((option) =>
-                    option.label.includes(input)
-                  );
-                  resolve(res);
-                }, getRandomInt(1, 4) * 900);
-              });
-            }}
-          />
+      <main className="main">
+        <div className="content">
+          <div>
+            <label htmlFor="example-autocomplete">Example autocomplete</label>
+            <ExampleAutocomplete
+              id="example-autocomplete"
+              onSelect={(option) => {
+                setValue(option);
+              }}
+              value={value}
+            />
+          </div>
+          <div>
+            <label htmlFor="selected">Selected value</label>
+            <div>
+              <input id="selected" value={value.label} disabled />
+            </div>
+          </div>
         </div>
       </main>
     </div>

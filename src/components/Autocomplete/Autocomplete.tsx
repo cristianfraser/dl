@@ -1,10 +1,15 @@
-import { Fragment, useRef, useState } from 'react';
-import { useQueryResults } from '../../queries';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import Highlight from './Highlight';
 
-type AutocompleteProps = {
+import { useQueryResults } from './queries';
+
+import './Autocomplete.css';
+
+export type AutocompleteProps = {
   value: Option;
   onSelect: (value: Option) => void;
   fetchFunction: (input: string) => Promise<Option[]>;
+  id: string;
 };
 
 export type Option = {
@@ -12,83 +17,89 @@ export type Option = {
   label: string;
 };
 
-const options: Option[] = [
-  {
-    value: '1',
-    label: 'hello',
-  },
-  {
-    value: '2',
-    label: 'ciao',
-  },
-  {
-    value: '3',
-    label: 'hola',
-  },
-];
-
-const Highlight = ({ text, match }: { text: string; match: string }) => {
-  const lcText = text.toLocaleLowerCase();
-  const lcMatch = match.toLocaleLowerCase();
-
-  const lcArray = lcText.split(lcMatch);
-
-  return (
-    <span>
-      {lcArray.map((element, index) => {
-        if (!element && index === 0) {
-          return null;
-        }
-
-        return (
-          <Fragment key={index}>
-            {index !== 0 && <b style={{ fontWeight: 600 }}>{match}</b>}
-            {element}
-          </Fragment>
-        );
-      })}
-    </span>
-  );
-};
-
-const Autocomplete = ({ onSelect, fetchFunction }: AutocompleteProps) => {
+const Autocomplete = ({
+  value,
+  onSelect,
+  fetchFunction,
+  id,
+}: AutocompleteProps) => {
   const [input, setInput] = useState('');
   const [isFocus, setFocus] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   const { results, isLoading } = useQueryResults(input, fetchFunction);
 
+  const onOutsideClickHandler = useCallback(() => {
+    setFocus(false);
+  }, [setFocus]);
+
+  useEffect(() => {
+    const listener = (event: MouseEvent | TouchEvent) => {
+      // Do nothing if clicking ref's element or descendent elements
+      if (!ref.current || ref.current.contains(event.target as Node)) {
+        return;
+      }
+
+      onOutsideClickHandler();
+    };
+
+    document.addEventListener('mousedown', listener);
+    document.addEventListener('touchstart', listener);
+
+    return () => {
+      document.removeEventListener('mousedown', listener);
+      document.removeEventListener('touchstart', listener);
+    };
+  }, [ref, onOutsideClickHandler]);
+
   return (
-    <div onFocusCapture={() => setFocus(true)}>
-      <div style={isFocus ? { border: '1px solid red' } : undefined}>
+    <div onFocusCapture={() => setFocus(true)} ref={ref}>
+      <div>
         <input
+          className="input"
+          id={id}
           value={input}
           onChange={(event) => {
             const value = event.target.value;
-
             setInput(value);
           }}
         />
       </div>
-      {isFocus && (
-        <ul>
-          {!isLoading &&
-            results.map((option) => {
-              return (
-                <li key={option.value}>
-                  <button
-                    onClick={() => {
-                      setInput(option.label);
-                      onSelect(option);
-                      setFocus(false);
-                    }}
-                  >
-                    <Highlight text={option.label} match={input} />
-                  </button>
-                </li>
-              );
-            })}
-          {isLoading ? <li>Loading...</li> : null}
-        </ul>
+      {isFocus && input.length > 0 && (
+        <div className="results-container">
+          <ul className="results-list">
+            {!isLoading &&
+              results.map((option) => {
+                return (
+                  <li className="result-li" key={option.value}>
+                    <button
+                      className="result-button"
+                      onClick={() => {
+                        setInput(option.label);
+                        onSelect(option);
+                        setFocus(false);
+                      }}
+                    >
+                      <Highlight
+                        selected={option.value === value.value}
+                        text={option.label}
+                        match={input}
+                      />
+                    </button>
+                  </li>
+                );
+              })}
+            {!isLoading &&
+            results &&
+            results.length === 0 &&
+            input.length > 0 ? (
+              <li className="result-placeholder-li">No results.</li>
+            ) : null}
+            {isLoading ? (
+              <li className="result-placeholder-li">Loading...</li>
+            ) : null}
+          </ul>
+        </div>
       )}
     </div>
   );
