@@ -9,10 +9,9 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header"></header>
-
       <main className="main">
         <div className="content">
+          <h1 className="title">Rick and Morty episodes</h1>
           <div className="input-container">
             <label htmlFor="example-autocomplete">Example autocomplete</label>
             <ExampleAutocomplete

@@ -7,8 +7,8 @@ import './Autocomplete.css';
 
 export type AutocompleteProps = {
   onSelect: (value: Option) => void;
-  fetchFunction: (input: string) => Promise<Option[]>;
   id: string;
+  fetchFunction: (input: string) => Promise<Option[]>;
 };
 
 export type Option = {

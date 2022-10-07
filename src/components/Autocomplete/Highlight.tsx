@@ -1,9 +1,5 @@
 import { memo } from 'react';
 
-function escapeRegExp(stringToGoIntoTheRegex: string) {
-  return stringToGoIntoTheRegex.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-}
-
 const Highlight = memo(({ text, match }: { text: string; match: string }) => {
   const lcText = text.toLocaleLowerCase();
   const lcMatch = match.toLocaleLowerCase();
