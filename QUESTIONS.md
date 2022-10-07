@@ -113,9 +113,9 @@ It's async because React batches many state changes together and then "flushes" 
 
 10. List a few ways styles can be used with components.
 
--styled-components
--plain css
--css modules
+- styled-components
+- plain css
+- css modules
 
 11. How to render an HTML string coming from the server.
 
