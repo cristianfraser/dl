@@ -1,14 +1,11 @@
 import { useState } from 'react';
 
 import './App.css';
-import { Option } from './components/Autocomplete/Autocomplete';
+
 import ExampleAutocomplete from './components/ExampleAutocomplete/ExampleAutocomplete';
 
 function App() {
-  const [value, setValue] = useState<Option>({
-    label: '',
-    value: '',
-  });
+  const [value, setValue] = useState('');
 
   return (
     <div className="App">
@@ -21,7 +18,7 @@ function App() {
             <ExampleAutocomplete
               id="example-autocomplete"
               onSelect={(option) => {
-                setValue(option);
+                setValue(option.label);
               }}
             />
           </div>
@@ -30,7 +27,7 @@ function App() {
             <div>
               <input
                 id="selected"
-                value={value.label}
+                value={value}
                 disabled
                 style={{ width: '100%' }}
               />

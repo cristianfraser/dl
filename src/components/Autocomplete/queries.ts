@@ -29,7 +29,7 @@ export const useQueryResults = (
         setSearch(input);
       }, 300);
     }
-  }, [input]);
+  }, [input, results]);
 
   useEffect(() => {
     ref.current += 1;
@@ -56,7 +56,7 @@ export const useQueryResults = (
     };
 
     fetchData();
-  }, [search]);
+  }, [search, fetchFunction, input, results]);
 
   return { results: results[input], isLoading: isLoading || !results[input] };
 };

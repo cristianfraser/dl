@@ -74,11 +74,7 @@ const Autocomplete = ({ onSelect, fetchFunction, id }: AutocompleteProps) => {
                         setFocus(false);
                       }}
                     >
-                      <Highlight
-                        selected={option.value === input}
-                        text={option.label}
-                        match={input}
-                      />
+                      <Highlight text={option.label} match={input} />
                     </button>
                   </li>
                 );
