@@ -13,7 +13,7 @@
   top: 0;
   left: 0;
   right: 0;
-  border: 1px solid black;
+  border: 1px solid rgb(220, 220, 220);
   max-height: 200px;
   overflow: scroll;
 }
@@ -36,5 +36,5 @@
 }
 
 .result-button:hover {
-  background-color: rgb(226, 226, 226);
+  background-color: rgb(238, 238, 238);
 }
