@@ -3,6 +3,7 @@
 }
 
 .main {
+  padding: 0 15px;
   padding-top: 50px;
 }
 
@@ -12,4 +13,13 @@
   padding: 15px;
   border: 1px solid black;
   border-radius: 5px;
+}
+
+.input-container:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.input-container label {
+  display: inline-block;
+  margin-bottom: 5px;
 }

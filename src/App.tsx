@@ -16,7 +16,7 @@ function App() {
 
       <main className="main">
         <div className="content">
-          <div>
+          <div className="input-container">
             <label htmlFor="example-autocomplete">Example autocomplete</label>
             <ExampleAutocomplete
               id="example-autocomplete"
@@ -26,10 +26,15 @@ function App() {
               value={value}
             />
           </div>
-          <div>
+          <div className="input-container">
             <label htmlFor="selected">Selected value</label>
             <div>
-              <input id="selected" value={value.label} disabled />
+              <input
+                id="selected"
+                value={value.label}
+                disabled
+                style={{ width: '100%' }}
+              />
             </div>
           </div>
         </div>
