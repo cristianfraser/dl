@@ -6,7 +6,6 @@ import { useQueryResults } from './queries';
 import './Autocomplete.css';
 
 export type AutocompleteProps = {
-  value: Option;
   onSelect: (value: Option) => void;
   fetchFunction: (input: string) => Promise<Option[]>;
   id: string;
@@ -17,12 +16,7 @@ export type Option = {
   label: string;
 };
 
-const Autocomplete = ({
-  value,
-  onSelect,
-  fetchFunction,
-  id,
-}: AutocompleteProps) => {
+const Autocomplete = ({ onSelect, fetchFunction, id }: AutocompleteProps) => {
   const [input, setInput] = useState('');
   const [isFocus, setFocus] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -81,7 +75,7 @@ const Autocomplete = ({
                       }}
                     >
                       <Highlight
-                        selected={option.value === value.value}
+                        selected={option.value === input}
                         text={option.label}
                         match={input}
                       />

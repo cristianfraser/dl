@@ -40,23 +40,15 @@ function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-type ExampleAutocompleteProps = Pick<
-  AutocompleteProps,
-  'value' | 'onSelect' | 'id'
->;
+type ExampleAutocompleteProps = Pick<AutocompleteProps, 'onSelect' | 'id'>;
 
-function ExampleAutocomplete({
-  id,
-  value,
-  onSelect,
-}: ExampleAutocompleteProps) {
+function ExampleAutocomplete({ id, onSelect }: ExampleAutocompleteProps) {
   return (
     <Autocomplete
       id={id}
       onSelect={(option) => {
         onSelect(option);
       }}
-      value={value}
       fetchFunction={(input) => {
         return new Promise((resolve) => {
           setTimeout(() => {

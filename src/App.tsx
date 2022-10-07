@@ -23,7 +23,6 @@ function App() {
               onSelect={(option) => {
                 setValue(option);
               }}
-              value={value}
             />
           </div>
           <div className="input-container">
